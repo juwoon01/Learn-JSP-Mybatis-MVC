@@ -13,6 +13,7 @@
 		<li>${board.seq }</li>
 		<li>${board.writer }</li>
 		<li>${board.contents }</li>
+		<li><a href="/MVC/download.jsp?filename=${board.fname }">${board.fname }</a></li>
 	</ul>
 	
 	<div>

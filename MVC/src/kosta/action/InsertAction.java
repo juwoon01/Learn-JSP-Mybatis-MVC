@@ -12,14 +12,9 @@ public class InsertAction implements Action {
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws Exception { //비즈니스 로직 호출 -> 호출된 결과 저장 -> 뷰를 선정
 		ActionForward forward = new ActionForward();
 		BoardService service = BoardService.getInstance();
-		request.setCharacterEncoding("utf-8");
 		
-		Board board = new Board();
-		board.setTitle(request.getParameter("title"));
-		board.setWriter(request.getParameter("writer"));;
-		board.setContents(request.getParameter("contents"));
 		
-		service.insertBoardService(board);//비즈니스 로직 호출 
+		service.insertBoardService(request);//비즈니스 로직 호출 
 		//뷰를 선정
 		forward.setRedirect(true);
 		forward.setPath("listAction.do");// 글 목록을 보기 위해 새로운 요청

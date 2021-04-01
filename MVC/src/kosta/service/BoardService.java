@@ -1,12 +1,17 @@
 package kosta.service;
 
 
+import java.io.File;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import com.oreilly.servlet.MultipartRequest;
+import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
+
 import kosta.model.Board;
 import kosta.model.BoardDao2;
+import kosta.model.ImageUtil;
 import kosta.model.ListModel;
 import kosta.model.Reply;
 import kosta.model.Search;
@@ -21,7 +26,45 @@ public class BoardService {// url -> service -> dao1, dao2 .... dao는 쿼리 �
 		return service;
 	}
 	
-	public int insertBoardService(Board board){
+	public int insertBoardService(HttpServletRequest request)throws Exception {
+		request.setCharacterEncoding("utf-8");
+		//파일 업로드, DB에 파일 이름 저장
+		
+		//파일 업로드(경로, 파일크기, 인코딩, 파일이름 중첩 정책)
+		String upLoadPath = request.getRealPath("upload");
+		int size = 20 * 1024 * 1024; //20MB
+		
+		MultipartRequest multi = new MultipartRequest(request, upLoadPath, size, "utf-8", new DefaultFileRenamePolicy());
+		
+		Board board = new Board();
+		board.setTitle(multi.getParameter("title"));
+		board.setWriter(multi.getParameter("writer"));;
+		board.setContents(multi.getParameter("contents"));
+		board.setFname("");
+		
+		//파일 업로드 DB(파일이름 저장)
+		if(multi.getFilesystemName("fname") != null) {
+			String fname = (String)multi.getFilesystemName("fname");
+			board.setFname(fname);
+			
+			//썸네일 이미지(gif, jpg) aa.gif => aa_small.gif
+			String pattern = fname.substring(fname.indexOf(".")+1);//. 뒤부터 뽑아옴
+			String head = fname.substring(0,fname.indexOf("."));//. 앞
+			
+			//원본 파일 객체
+			String imagePath = upLoadPath + "\\" + fname;//파일의 전체 경로
+			File src = new File(imagePath);
+			
+			//썸네일 파일 객체
+			String thumPath = upLoadPath + "\\" + head + "_small." + pattern;
+			File dest = new File(thumPath);
+			
+			if(pattern.equals("gif") || pattern.equals("jpg")) {
+				ImageUtil.resize(src,dest,100,ImageUtil.RATIO);
+			}
+			
+		}
+		
 		return dao.insertBoard(board);
 	}
 	

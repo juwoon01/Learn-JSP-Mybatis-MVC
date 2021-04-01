@@ -8,8 +8,8 @@
 	<cache />
 	
 	<insert id="insertBoard" parameterType="Board"> 
-		insert into board(seq, title, writer, contents, regdate, hitcount)
-		values(board_seq.nextval, #{title}, #{writer}, #{contents}, sysdate, 0)
+		insert into board(seq, title, writer, contents, regdate, hitcount,fname)
+		values(board_seq.nextval, #{title}, #{writer}, #{contents}, sysdate, 0, #{fname})
 	</insert>
 	
 	<select id="listBoard" resultType="Board" parameterType="Search">
