@@ -16,8 +16,9 @@ public class DetailAction implements Action {
 		ActionForward forward = new ActionForward();
 		BoardService service = BoardService.getInstance();
 		
-		Board board = service.detailBoardService(request);
-		List<Reply> listReply = service.detailreplyService(request);
+		int seq = Integer.parseInt(request.getParameter("seq"));
+		Board board = service.detailBoardService(seq);
+		List<Reply> listReply = service.detailreplyService(seq);
 		request.setAttribute("board", board);
 		request.setAttribute("listReply", listReply);
 		

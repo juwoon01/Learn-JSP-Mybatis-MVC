@@ -21,17 +21,8 @@ public class BoardService {// url -> service -> dao1, dao2 .... dao는 쿼리 �
 		return service;
 	}
 	
-	public int insertBoardService(HttpServletRequest request)throws Exception {
-		request.setCharacterEncoding("utf-8");
-		
-		Board board = new Board();
-		board.setTitle(request.getParameter("title"));
-		board.setWriter(request.getParameter("writer"));;
-		board.setContents(request.getParameter("contents"));
-		
-		
+	public int insertBoardService(Board board){
 		return dao.insertBoard(board);
-	
 	}
 	
 	public ListModel listBoardService(HttpServletRequest request)throws Exception {
@@ -84,41 +75,23 @@ public class BoardService {// url -> service -> dao1, dao2 .... dao는 쿼리 �
 		return listModel;
 	}
 	
-	public Board detailBoardService(HttpServletRequest request) throws Exception{
-		int seq = Integer.parseInt(request.getParameter("seq"));
-		Board board = dao.detailBoard(seq);
-		return board;
+	public Board detailBoardService(int seq){
+		return dao.detailBoard(seq);
 	}
-	public List<Reply> detailreplyService(HttpServletRequest request) throws Exception{
-		int seq = Integer.parseInt(request.getParameter("seq"));
-		List<Reply> listReply = dao.detailReply(seq);
-		return listReply;
+	
+	public List<Reply> detailreplyService(int seq){
+		return dao.detailReply(seq);
 	}
-	public int updateBoardService(HttpServletRequest request) throws Exception{
-		request.setCharacterEncoding("utf-8");
-		
-		Board board = new Board();
-		board.setSeq(Integer.parseInt(request.getParameter("seq")));
-		board.setTitle(request.getParameter("title"));
-		board.setWriter(request.getParameter("writer"));;
-		board.setContents(request.getParameter("contents"));
-		
+	
+	public int updateBoardService(Board board){
 		return dao.updateBoard(board);
 	}
 	
-	public int deleteBoardService(HttpServletRequest request) throws Exception{
-		int seq = Integer.parseInt(request.getParameter("seq"));
+	public int deleteBoardService(int seq){
 		return dao.deleteBoard(seq);
 	}
 	
-	public int insertReplyService(HttpServletRequest request) throws Exception{
-		request.setCharacterEncoding("utf-8");
-		
-		Reply reply = new Reply();
-		reply.setSeq(Integer.parseInt(request.getParameter("seq")));
-		reply.setR_title(request.getParameter("r_title"));
-		reply.setR_writer(request.getParameter("r_writer"));;
-		reply.setR_contents(request.getParameter("r_contents"));
+	public int insertReplyService(Reply reply){
 		return dao.insertReply(reply);
 	}
 	

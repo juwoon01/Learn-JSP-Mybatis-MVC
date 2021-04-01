@@ -11,7 +11,9 @@ public class DeleteAction implements Action {
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ActionForward forward = new ActionForward();
 		BoardService service = BoardService.getInstance();
-		service.deleteBoardService(request);
+		
+		int seq = Integer.parseInt(request.getParameter("seq"));
+		service.deleteBoardService(seq);
 		forward.setRedirect(true);
 		forward.setPath("listAction.do");
 		

@@ -12,7 +12,8 @@ public class UpdateForm implements Action {
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ActionForward forward = new ActionForward();
 		BoardService sevice = BoardService.getInstance();
-		Board board = sevice.detailBoardService(request);
+		int seq = Integer.parseInt(request.getParameter("seq"));
+		Board board = sevice.detailBoardService(seq);
 		request.setAttribute("board", board);
 		
 		forward.setRedirect(false);

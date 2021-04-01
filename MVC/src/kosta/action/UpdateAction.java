@@ -12,7 +12,15 @@ public class UpdateAction implements Action {
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ActionForward forward = new ActionForward();
 		BoardService sevice = BoardService.getInstance();
-		sevice.updateBoardService(request);
+		request.setCharacterEncoding("utf-8");
+		
+		Board board = new Board();
+		board.setSeq(Integer.parseInt(request.getParameter("seq")));
+		board.setTitle(request.getParameter("title"));
+		board.setWriter(request.getParameter("writer"));;
+		board.setContents(request.getParameter("contents"));
+		
+		sevice.updateBoardService(board);
 		
 		forward.setRedirect(true);
 		forward.setPath("listAction.do");
